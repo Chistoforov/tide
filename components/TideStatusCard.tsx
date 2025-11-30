@@ -3,7 +3,7 @@ import { TideIcon } from './TideIcon';
 import type { TideData } from '@/types/tide';
 
 interface TideStatusCardProps {
-  tideState: TideData;
+  tideState: TideData | null;
   onRefresh: () => void;
   loading: boolean;
   error?: string | null;
@@ -15,6 +15,32 @@ export const TideStatusCard: React.FC<TideStatusCardProps> = ({
   loading,
   error,
 }) => {
+  // Если есть ошибка и нет данных, показываем только ошибку
+  if (error && !tideState) {
+    return (
+      <div className="bg-red-100 text-red-800 rounded-3xl volumetric-card p-8 md:p-12 max-w-md w-full mx-auto border-4 border-red-200">
+        <div className="flex flex-col items-center space-y-6">
+          <div className="text-center">
+            <h2 className="text-3xl font-bold mb-2 volumetric-text">Ой!</h2>
+            <p className="text-lg font-medium opacity-90">{error}</p>
+          </div>
+          <button
+            onClick={onRefresh}
+            disabled={loading}
+            className="bg-red-500 hover:bg-red-600 text-white px-8 py-3 rounded-full text-lg font-bold cartoon-button disabled:opacity-50"
+          >
+            {loading ? 'Загрузка...' : 'Попробовать снова'}
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  // Если нет данных и нет ошибки, показываем пустое состояние
+  if (!tideState) {
+    return null;
+  }
+
   const { currentState, currentStateStart, nextExtreme, lastUpdated } = tideState;
   const isHigh = currentState === 'high';
 

@@ -56,9 +56,13 @@ export async function fetchTideData(
       }
     }
     
-    // Добавляем более информативное сообщение для 403
-    if (response.status === 403) {
-      errorMessage = `Access forbidden (403). Проверьте правильность API ключа. ${errorMessage}`;
+    // Добавляем более информативное сообщение для различных ошибок
+    if (response.status === 402) {
+      errorMessage = `Ошибка API ключа Stormglass (402): Проблема с подпиской или лимитом запросов. Проверьте ваш API ключ на https://stormglass.io/ или обновите подписку.`;
+    } else if (response.status === 403) {
+      errorMessage = `Доступ запрещен (403). Проверьте правильность API ключа. ${errorMessage}`;
+    } else if (response.status === 401) {
+      errorMessage = `Неавторизован (401). API ключ недействителен или отсутствует. Проверьте настройки переменных окружения.`;
     }
     
     throw new Error(errorMessage);

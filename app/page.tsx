@@ -71,33 +71,33 @@ export default function Home() {
             </div>
           </div>
           {/* Dog Character */}
-          {loading && !tideState ? (
+          {loading && !tideState && !error ? (
             <div className="flex flex-col items-center space-y-4">
               <DogCharacter tideData={null} />
               <p className="text-white text-xl font-bold drop-shadow-lg">Ищем собачку...</p>
             </div>
-          ) : tideState ? (
+          ) : (
             <DogCharacter tideData={tideState} />
-          ) : null}
+          )}
         </div>
 
         {/* Right Side: Status Card */}
         <div className="w-full max-w-md">
-          {loading && !tideState ? (
+          {loading && !tideState && !error ? (
             <div className="bg-white bg-opacity-40 text-sky-900 rounded-[2rem] shadow-xl p-8 md:p-12 w-full mx-auto volumetric-card border-4 border-white">
               <div className="flex flex-col items-center space-y-6">
                 <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-sky-500"></div>
                 <p className="text-xl font-bold">Загрузка данных...</p>
               </div>
             </div>
-          ) : tideState ? (
+          ) : (
             <TideStatusCard
               tideState={tideState}
               onRefresh={handleRefresh}
               loading={loading}
               error={error}
             />
-          ) : null}
+          )}
 
           {/* PWA Installation Info */}
           {!error && (
