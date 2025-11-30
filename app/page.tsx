@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { TideStatusCard } from '@/components/TideStatusCard';
+import { DogCharacter } from '@/components/DogCharacter';
 import type { TideData } from '@/types/tide';
 
 export default function Home() {
@@ -57,7 +58,7 @@ export default function Home() {
 
       <div className="max-w-6xl w-full z-10 flex flex-col md:flex-row items-center justify-center gap-8 md:gap-16">
 
-        {/* Left Side: Title and Location */}
+        {/* Left Side: Title, Location, and Dog Character */}
         <div className="flex flex-col items-center">
           <div className="mb-4 md:mb-8 text-center">
             <h1 className="text-5xl md:text-7xl font-bold text-white volumetric-text drop-shadow-lg mb-2">
@@ -69,6 +70,15 @@ export default function Home() {
               </p>
             </div>
           </div>
+          {/* Dog Character */}
+          {loading && !tideState ? (
+            <div className="flex flex-col items-center space-y-4">
+              <DogCharacter tideData={null} />
+              <p className="text-white text-xl font-bold drop-shadow-lg">Ищем собачку...</p>
+            </div>
+          ) : tideState ? (
+            <DogCharacter tideData={tideState} />
+          ) : null}
         </div>
 
         {/* Right Side: Status Card */}
