@@ -7,9 +7,10 @@ export const dynamic = 'force-dynamic';
 export const revalidate = 0;
 
 export async function GET(request: NextRequest) {
+  const { searchParams } = new URL(request.url);
+  const force = searchParams.get('force') === 'true';
+  
   try {
-    const { searchParams } = new URL(request.url);
-    const force = searchParams.get('force') === 'true';
 
     // Если не принудительное обновление, пытаемся получить данные из кеша
     if (!force) {
