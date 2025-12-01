@@ -13,6 +13,10 @@ export interface TideRecord {
  */
 export async function saveTideDataToDB(response: StormglassResponse): Promise<void> {
   try {
+    if (!supabaseAdmin) {
+      throw new Error('Supabase client is not initialized. Please set NEXT_PUBLIC_SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY environment variables.');
+    }
+
     const record: Omit<TideRecord, 'id' | 'created_at'> = {
       fetched_at: new Date().toISOString(),
       raw_data: response,
@@ -39,6 +43,11 @@ export async function saveTideDataToDB(response: StormglassResponse): Promise<vo
  */
 export async function getLatestTideDataFromDB(): Promise<StormglassResponse | null> {
   try {
+    if (!supabaseAdmin) {
+      console.warn('Supabase client is not initialized. Returning null.');
+      return null;
+    }
+
     const { data, error } = await supabaseAdmin
       .from('tide_data')
       .select('raw_data, fetched_at')
@@ -71,6 +80,11 @@ export async function getLatestTideDataFromDB(): Promise<StormglassResponse | nu
  */
 export async function getLastFetchTime(): Promise<Date | null> {
   try {
+    if (!supabaseAdmin) {
+      console.warn('Supabase client is not initialized. Returning null.');
+      return null;
+    }
+
     const { data, error } = await supabaseAdmin
       .from('tide_data')
       .select('fetched_at')

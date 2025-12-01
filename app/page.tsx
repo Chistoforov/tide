@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { TideStatusCard } from '@/components/TideStatusCard';
 import { DogCharacter } from '@/components/DogCharacter';
-import { clearPWACache, updateServiceWorker } from '@/components/ServiceWorkerRegistration';
+import { clearPWACache, updateServiceWorker } from '@/lib/pwa-utils';
 import type { TideData } from '@/types/tide';
 
 export default function Home() {
