@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { TideStatusCard } from '@/components/TideStatusCard';
 import { DogCharacter } from '@/components/DogCharacter';
+import { clearPWACache, updateServiceWorker } from '@/components/ServiceWorkerRegistration';
 import type { TideData } from '@/types/tide';
 
 export default function Home() {
@@ -46,6 +47,19 @@ export default function Home() {
   // Обработчик для кнопки обновления (перечитывает из БД/кэша, НЕ вызывает внешний API)
   const handleRefresh = () => {
     fetchTideData();
+  };
+
+  // Обработчик для сброса кэша PWA
+  const handleClearCache = async () => {
+    try {
+      await clearPWACache();
+      await updateServiceWorker();
+      // Перезагружаем страницу после очистки кэша
+      window.location.reload();
+    } catch (err) {
+      console.error('Error clearing cache:', err);
+      alert('Ошибка при очистке кэша. Попробуйте перезагрузить страницу вручную.');
+    }
   };
 
   return (
@@ -94,16 +108,12 @@ export default function Home() {
             <TideStatusCard
               tideState={tideState}
               onRefresh={handleRefresh}
+              onClearCache={handleClearCache}
               loading={loading}
               error={error}
             />
           )}
         </div>
-      </div>
-
-      {/* Footer */}
-      <div className="absolute bottom-4 text-center text-sky-900 text-opacity-60 text-xs font-bold">
-        <p>Next.js 15 • TypeScript • Tailwind CSS • Stormglass API</p>
       </div>
     </div>
   );
