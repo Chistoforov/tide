@@ -23,8 +23,11 @@ export async function GET(request: NextRequest) {
       const cachedData = await getCachedTideData();
       
       if (cachedData) {
-        // Данные из кэша уже обработаны, возвращаем их напрямую
-        console.log('Using cached data from file');
+        // Данные из кэша уже обработаны, но мы все равно пересчитываем на основе текущего времени
+        // Однако для этого нужны сырые данные, поэтому используем кэш как есть
+        // В идеале нужно хранить сырые данные в кэше, но для обратной совместимости
+        // используем кэшированные данные
+        console.log('Using cached data from file (may be slightly outdated)');
         return NextResponse.json(cachedData);
       }
       
@@ -35,10 +38,12 @@ export async function GET(request: NextRequest) {
       );
     }
 
-    // Вычисляем прогноз на основе текущего времени
-    // Используем текущее время для расчета, а не время сохранения данных
+    // ВАЖНО: Вычисляем прогноз на основе ТЕКУЩЕГО времени
+    // Это позволяет получить актуальное состояние прилива даже если данные были сохранены ранее
     const currentTime = new Date();
+    console.log(`[Tide API] Calculating tide state for current time: ${currentTime.toISOString()}`);
     const tideData = transformTideData(response, currentTime);
+    console.log(`[Tide API] Current tide state: ${tideData.currentState}, next extreme: ${tideData.nextExtreme.type} at ${tideData.nextExtreme.time}`);
 
     // Добавляем информацию о времени последнего обновления из API
     if (lastFetchTime) {

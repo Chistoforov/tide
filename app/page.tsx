@@ -98,23 +98,6 @@ export default function Home() {
               error={error}
             />
           )}
-
-          {/* PWA Installation Info */}
-          {!error && (
-            <div className="mt-8 bg-white bg-opacity-30 rounded-2xl p-6 text-sky-900 backdrop-blur-sm border-2 border-white border-opacity-50">
-              <h2 className="text-lg font-bold mb-2 text-center">📱 Установить приложение</h2>
-              <div className="flex justify-around text-xs font-semibold">
-                <div className="text-center">
-                  <span className="block text-2xl mb-1">🍎</span>
-                  iOS
-                </div>
-                <div className="text-center">
-                  <span className="block text-2xl mb-1">🤖</span>
-                  Android
-                </div>
-              </div>
-            </div>
-          )}
         </div>
       </div>
 

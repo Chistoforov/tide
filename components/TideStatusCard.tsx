@@ -60,14 +60,14 @@ export const TideStatusCard: React.FC<TideStatusCardProps> = ({
     
     if (isHigh) {
       // Для прилива
-      if (hoursSinceStart === null || hoursSinceStart < 3) {
+      if (hoursSinceStart === null || hoursSinceStart < 4) {
         return 'Пока еще можно играть';
       } else {
-        return 'Высокая вода';
+        return 'Нельзя играть';
       }
     } else {
       // Для отлива
-      if (hoursSinceStart === null || hoursSinceStart < 3) {
+      if (hoursSinceStart === null || hoursSinceStart < 2) {
         return 'Скоро можно играть!';
       } else {
         return 'Можно играть!';
@@ -80,7 +80,7 @@ export const TideStatusCard: React.FC<TideStatusCardProps> = ({
     const statusText = getStatusText();
     
     switch (statusText) {
-      case 'Высокая вода':
+      case 'Нельзя играть':
         // Синий цвет - вода высокая, играть нельзя
         return 'bg-blue-400 border-blue-300';
       case 'Можно играть!':
