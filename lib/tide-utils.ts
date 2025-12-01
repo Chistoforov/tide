@@ -159,9 +159,10 @@ export function getNextExtreme(
 
 /**
  * Преобразует ответ API Stormglass в формат приложения
+ * @param response - Ответ от Stormglass API
+ * @param currentTime - Текущее время для расчета прогноза (по умолчанию - сейчас)
  */
-export function transformTideData(response: StormglassResponse): TideData {
-  const currentTime = new Date();
+export function transformTideData(response: StormglassResponse, currentTime: Date = new Date()): TideData {
   const currentState = getCurrentTideState(response.data, currentTime);
   const currentStateStart = getCurrentStateStart(response.data, currentTime, currentState);
   const nextExtreme = getNextExtreme(response.data, currentTime);
@@ -169,7 +170,7 @@ export function transformTideData(response: StormglassResponse): TideData {
   // Если следующего экстремума нет, используем последний как fallback
   const fallbackExtreme: TideExtreme = {
     type: 'High',
-    time: format(new Date(), 'HH:mm, d MMM', { locale: ru }),
+    time: format(currentTime, 'HH:mm, d MMM', { locale: ru }),
     height: '0.0',
     timestamp: Math.floor(currentTime.getTime() / 1000),
   };
@@ -178,7 +179,7 @@ export function transformTideData(response: StormglassResponse): TideData {
     currentState,
     currentStateStart,
     nextExtreme: nextExtreme || fallbackExtreme,
-    lastUpdated: format(new Date(), 'dd.MM.yyyy HH:mm', { locale: ru }),
+    lastUpdated: format(currentTime, 'dd.MM.yyyy HH:mm', { locale: ru }),
   };
 }
 

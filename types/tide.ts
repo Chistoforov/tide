@@ -12,6 +12,7 @@ export interface TideData {
   currentStateStart: TideExtreme | null; // Время начала текущего состояния
   nextExtreme: TideExtreme;
   lastUpdated: string;
+  lastApiFetch?: string; // ISO string - время последнего запроса к API
 }
 
 // Stormglass API Response Types

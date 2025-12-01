@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { fetchTideData } from '@/lib/stormglass-api';
-import { transformTideData } from '@/lib/tide-utils';
-import { saveTideDataToCache } from '@/lib/tide-cache';
+import { saveTideDataToDB } from '@/lib/tide-db';
 
 export const dynamic = 'force-dynamic';
 export const revalidate = 0;
@@ -13,16 +12,31 @@ export const revalidate = 0;
  */
 export async function GET(request: NextRequest) {
   try {
-    // Опциональная защита через секретный ключ
+    // Проверка авторизации для cron-задач
+    // Vercel Cron передает заголовок 'x-vercel-cron' или можно использовать секретный ключ
+    const authHeader = request.headers.get('authorization');
+    const cronSecret = request.headers.get('x-vercel-cron');
     const { searchParams } = new URL(request.url);
     const secret = searchParams.get('secret');
     const expectedSecret = process.env.CRON_SECRET;
 
-    if (expectedSecret && secret !== expectedSecret) {
-      return NextResponse.json(
-        { error: 'Unauthorized' },
-        { status: 401 }
-      );
+    // Если установлен CRON_SECRET, проверяем авторизацию
+    if (expectedSecret) {
+      // Проверяем заголовок Authorization (Bearer token)
+      if (authHeader && authHeader === `Bearer ${expectedSecret}`) {
+        // OK
+      }
+      // Проверяем query параметр secret
+      else if (secret && secret === expectedSecret) {
+        // OK
+      }
+      // Проверяем заголовок от Vercel Cron (если не установлен секрет, разрешаем)
+      else if (!cronSecret) {
+        return NextResponse.json(
+          { error: 'Unauthorized' },
+          { status: 401 }
+        );
+      }
     }
 
     const apiKey = process.env.STORMGLASS_API_KEY;
@@ -51,16 +65,13 @@ export async function GET(request: NextRequest) {
       end: endDate.toISOString(),
     });
 
-    // Преобразуем в формат приложения
-    const tideData = transformTideData(response);
-
-    // Сохраняем в кеш
-    await saveTideDataToCache(tideData);
+    // Сохраняем сырые данные в базу данных
+    await saveTideDataToDB(response);
 
     return NextResponse.json({
       success: true,
-      message: 'Tide data cached successfully',
-      data: tideData,
+      message: 'Tide data saved to database successfully',
+      fetchedAt: new Date().toISOString(),
     });
   } catch (error) {
     console.error('Error updating tide cache:', error);
