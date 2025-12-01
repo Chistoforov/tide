@@ -5,6 +5,7 @@ import type { TideData } from '@/types/tide';
 interface TideStatusCardProps {
   tideState: TideData | null;
   onRefresh: () => void;
+  onClearCache?: () => void;
   loading: boolean;
   error?: string | null;
 }
@@ -12,6 +13,7 @@ interface TideStatusCardProps {
 export const TideStatusCard: React.FC<TideStatusCardProps> = ({
   tideState,
   onRefresh,
+  onClearCache,
   loading,
   error,
 }) => {
@@ -192,6 +194,17 @@ export const TideStatusCard: React.FC<TideStatusCardProps> = ({
         >
           {loading ? 'Загрузка...' : 'Обновить'}
         </button>
+
+        {/* Clear Cache Button */}
+        {onClearCache && (
+          <button
+            onClick={onClearCache}
+            className="bg-white bg-opacity-20 text-white hover:bg-opacity-30 px-6 py-2 rounded-full text-sm font-medium cartoon-button border-2 border-white border-opacity-50 w-full"
+            title="Очистить кэш PWA и перезагрузить приложение"
+          >
+            🗑️ Сбросить кэш
+          </button>
+        )}
       </div>
     </div>
   );
