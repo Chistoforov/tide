@@ -1,14 +1,19 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { fetchTideData } from '@/lib/stormglass-api';
 import { saveTideDataToDB } from '@/lib/tide-db';
+import { saveTideDataToCache } from '@/lib/tide-cache';
+import { transformTideData } from '@/lib/tide-utils';
 
 export const dynamic = 'force-dynamic';
 export const revalidate = 0;
 
 /**
- * Endpoint для обновления кеша данных о приливах
- * Предназначен для вызова из cron job
- * Можно защитить секретным ключом через query параметр или header
+ * Endpoint для обновления данных о приливах
+ * ЕДИНСТВЕННОЕ место, где вызывается внешний API Stormglass
+ * Предназначен ТОЛЬКО для вызова из cron job (настроен в vercel.json)
+ * Защищен секретным ключом через query параметр или header
+ * 
+ * ВАЖНО: Этот endpoint НЕ должен вызываться при загрузке/обновлении приложения
  */
 export async function GET(request: NextRequest) {
   try {
@@ -67,6 +72,17 @@ export async function GET(request: NextRequest) {
 
     // Сохраняем сырые данные в базу данных
     await saveTideDataToDB(response);
+
+    // Также сохраняем обработанные данные в файловый кэш для fallback
+    try {
+      const currentTime = new Date();
+      const tideData = transformTideData(response, currentTime);
+      tideData.lastApiFetch = currentTime.toISOString();
+      await saveTideDataToCache(tideData);
+    } catch (cacheError) {
+      // Не критично, если не удалось сохранить в кэш
+      console.warn('Failed to save to file cache:', cacheError);
+    }
 
     return NextResponse.json({
       success: true,

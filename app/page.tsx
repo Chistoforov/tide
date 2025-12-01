@@ -10,14 +10,14 @@ export default function Home() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  const fetchTideData = async (force = false) => {
+  const fetchTideData = async () => {
     setLoading(true);
     setError(null);
 
     try {
-      // Если force=true, добавляем параметр для принудительного обновления
-      const url = force ? '/api/tide?force=true' : '/api/tide';
-      const response = await fetch(url);
+      // Загружаем данные из БД/кэша (НЕ вызывает внешний API Stormglass)
+      // Внешний API вызывается ТОЛЬКО по крону через /api/tide/update
+      const response = await fetch('/api/tide');
 
       if (!response.ok) {
         const errorData = await response.json();
@@ -38,14 +38,14 @@ export default function Home() {
     }
   };
 
-  // Загружаем данные при монтировании (используем кеш)
+  // Загружаем данные при монтировании (читаем из БД/кэша, НЕ вызываем внешний API)
   useEffect(() => {
-    fetchTideData(false);
+    fetchTideData();
   }, []);
 
-  // Обработчик для кнопки обновления (принудительное обновление)
+  // Обработчик для кнопки обновления (перечитывает из БД/кэша, НЕ вызывает внешний API)
   const handleRefresh = () => {
-    fetchTideData(true);
+    fetchTideData();
   };
 
   return (
