@@ -1,7 +1,6 @@
 // Service Worker для PWA
-const CACHE_NAME = 'tide-tracker-v3'; // Обновлено: исключены API запросы из кэша
+const CACHE_NAME = 'tide-tracker-v4'; // Обновлено: network-first стратегия для HTML
 const urlsToCache = [
-  '/',
   '/manifest.json',
 ];
 
@@ -26,10 +25,11 @@ self.addEventListener('activate', (event) => {
           }
         })
       );
+    }).then(() => {
+      // Берем контроль над всеми страницами
+      return self.clients.claim();
     })
   );
-  // Берем контроль над всеми страницами
-  return self.clients.claim();
 });
 
 self.addEventListener('fetch', (event) => {
@@ -41,10 +41,42 @@ self.addEventListener('fetch', (event) => {
     return;
   }
   
-  // Для остальных запросов используем кэш
+  // Для HTML страниц используем network-first стратегию (сначала сеть, потом кэш)
+  // Это гарантирует, что пользователь всегда получает актуальную версию
+  if (event.request.mode === 'navigate' || (event.request.method === 'GET' && event.request.headers.get('accept')?.includes('text/html'))) {
+    event.respondWith(
+      fetch(event.request)
+        .then((response) => {
+          // Если запрос успешен, обновляем кэш
+          if (response.ok) {
+            const responseClone = response.clone();
+            caches.open(CACHE_NAME).then((cache) => {
+              cache.put(event.request, responseClone);
+            });
+          }
+          return response;
+        })
+        .catch(() => {
+          // Если сеть недоступна, используем кэш
+          return caches.match(event.request);
+        })
+    );
+    return;
+  }
+  
+  // Для остальных статических ресурсов используем cache-first
   event.respondWith(
     caches.match(event.request).then((response) => {
-      return response || fetch(event.request);
+      return response || fetch(event.request).then((fetchResponse) => {
+        // Кэшируем успешные ответы
+        if (fetchResponse.ok) {
+          const responseClone = fetchResponse.clone();
+          caches.open(CACHE_NAME).then((cache) => {
+            cache.put(event.request, responseClone);
+          });
+        }
+        return fetchResponse;
+      });
     })
   );
 });

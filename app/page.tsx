@@ -11,7 +11,7 @@ export default function Home() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  const fetchTideData = async () => {
+  const fetchTideData = async (retryCount = 0) => {
     setLoading(true);
     setError(null);
 
@@ -23,6 +23,7 @@ export default function Home() {
         cache: 'no-store', // Отключаем кэш браузера
         headers: {
           'Cache-Control': 'no-cache',
+          'Pragma': 'no-cache',
         },
       });
 
@@ -32,6 +33,20 @@ export default function Home() {
       if (!response.ok) {
         const errorData = await response.json();
         console.error('[Client] API returned error:', errorData);
+        
+        // Если это ошибка 404 (данные отсутствуют) и это первая попытка,
+        // попробуем очистить кэш и повторить запрос
+        if (response.status === 404 && retryCount === 0) {
+          console.log('[Client] 404 error, trying to clear cache and retry...');
+          try {
+            await clearPWACache();
+            // Повторяем запрос после очистки кэша
+            return fetchTideData(1);
+          } catch (cacheError) {
+            console.error('[Client] Error clearing cache:', cacheError);
+          }
+        }
+        
         throw new Error(errorData.error || 'Failed to fetch tide data');
       }
 
@@ -46,6 +61,19 @@ export default function Home() {
       // Проверяем, не вернул ли API ошибку в теле ответа (даже при статусе 200)
       if ((data as any)?.error) {
         console.error('[Client] Error in response body:', (data as any).error);
+        
+        // Если это первая попытка и есть ошибка, попробуем очистить кэш
+        if (retryCount === 0) {
+          console.log('[Client] Error in response, trying to clear cache and retry...');
+          try {
+            await clearPWACache();
+            // Повторяем запрос после очистки кэша
+            return fetchTideData(1);
+          } catch (cacheError) {
+            console.error('[Client] Error clearing cache:', cacheError);
+          }
+        }
+        
         throw new Error((data as any).error);
       }
 
