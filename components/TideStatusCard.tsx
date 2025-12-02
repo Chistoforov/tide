@@ -56,6 +56,32 @@ export const TideStatusCard: React.FC<TideStatusCardProps> = ({
     return diffHours;
   };
 
+  // Форматируем время с начала состояния в читаемый вид
+  const getDurationText = (): string | null => {
+    if (!currentStateStart) return null;
+    const now = new Date();
+    const startTime = new Date(currentStateStart.timestamp * 1000);
+    const diffMs = now.getTime() - startTime.getTime();
+    
+    if (diffMs < 0) return null;
+    
+    const diffMinutes = Math.floor(diffMs / (1000 * 60));
+    const diffHours = Math.floor(diffMinutes / 60);
+    const remainingMinutes = diffMinutes % 60;
+
+    if (diffMinutes < 1) {
+      return 'только начался';
+    } else if (diffMinutes < 60) {
+      return `идет ${diffMinutes} ${diffMinutes === 1 ? 'минуту' : diffMinutes < 5 ? 'минуты' : 'минут'}`;
+    } else {
+      const hoursText = diffHours === 1 ? 'час' : diffHours < 5 ? 'часа' : 'часов';
+      const minutesText = remainingMinutes === 0
+        ? ''
+        : ` ${remainingMinutes} ${remainingMinutes === 1 ? 'минуту' : remainingMinutes < 5 ? 'минуты' : 'минут'}`;
+      return `идет ${diffHours} ${hoursText}${minutesText}`;
+    }
+  };
+
   // Получаем текст статуса в зависимости от времени с начала состояния
   const getStatusText = (): string => {
     const hoursSinceStart = getHoursSinceStart();
@@ -161,9 +187,16 @@ export const TideStatusCard: React.FC<TideStatusCardProps> = ({
             {getStatusText()}
           </p>
           {currentStateStart && (
-            <p className="text-sm font-medium opacity-80 mt-2">
-              Начался: {currentStateStart.time}
-            </p>
+            <>
+              <p className="text-sm font-medium opacity-80 mt-2">
+                Начался: {currentStateStart.time}
+              </p>
+              {getDurationText() && (
+                <p className="text-sm font-medium opacity-75 mt-1">
+                  {getDurationText()}
+                </p>
+              )}
+            </>
           )}
         </div>
 
