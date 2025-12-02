@@ -1,5 +1,5 @@
 // Service Worker для PWA
-const CACHE_NAME = 'tide-tracker-v2';
+const CACHE_NAME = 'tide-tracker-v3'; // Обновлено: исключены API запросы из кэша
 const urlsToCache = [
   '/',
   '/manifest.json',
@@ -33,6 +33,15 @@ self.addEventListener('activate', (event) => {
 });
 
 self.addEventListener('fetch', (event) => {
+  const url = new URL(event.request.url);
+  
+  // НЕ кэшируем API запросы - всегда делаем свежий запрос
+  if (url.pathname.startsWith('/api/')) {
+    event.respondWith(fetch(event.request));
+    return;
+  }
+  
+  // Для остальных запросов используем кэш
   event.respondWith(
     caches.match(event.request).then((response) => {
       return response || fetch(event.request);

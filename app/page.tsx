@@ -18,17 +18,41 @@ export default function Home() {
     try {
       // Загружаем данные из БД/кэша (НЕ вызывает внешний API Stormglass)
       // Внешний API вызывается ТОЛЬКО по крону через /api/tide/update
-      const response = await fetch('/api/tide');
+      console.log('[Client] Fetching tide data from /api/tide...');
+      const response = await fetch('/api/tide', {
+        cache: 'no-store', // Отключаем кэш браузера
+        headers: {
+          'Cache-Control': 'no-cache',
+        },
+      });
+
+      console.log('[Client] Response status:', response.status, response.statusText);
+      console.log('[Client] Response ok:', response.ok);
 
       if (!response.ok) {
         const errorData = await response.json();
+        console.error('[Client] API returned error:', errorData);
         throw new Error(errorData.error || 'Failed to fetch tide data');
       }
 
       const data: TideData = await response.json();
+      console.log('[Client] Received data:', {
+        hasData: !!data,
+        currentState: data?.currentState,
+        hasNextExtreme: !!data?.nextExtreme,
+        error: (data as any)?.error,
+      });
+
+      // Проверяем, не вернул ли API ошибку в теле ответа (даже при статусе 200)
+      if ((data as any)?.error) {
+        console.error('[Client] Error in response body:', (data as any).error);
+        throw new Error((data as any).error);
+      }
+
       setTideState(data);
+      console.log('[Client] Tide state updated successfully');
     } catch (err) {
-      console.error('Error fetching tide data:', err);
+      console.error('[Client] Error fetching tide data:', err);
       setError(
         err instanceof Error
           ? err.message

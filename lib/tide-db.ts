@@ -44,33 +44,40 @@ export async function saveTideDataToDB(response: StormglassResponse): Promise<vo
 export async function getLatestTideDataFromDB(): Promise<StormglassResponse | null> {
   try {
     if (!supabaseAdmin) {
-      console.warn('Supabase client is not initialized. Returning null.');
+      console.warn('[Tide DB] Supabase client is not initialized. Returning null.');
       return null;
     }
 
+    console.log('[Tide DB] Fetching latest tide data from database...');
+
+    // Используем maybeSingle() вместо single() для более безопасной обработки отсутствующих записей
     const { data, error } = await supabaseAdmin
       .from('tide_data')
       .select('raw_data, fetched_at')
       .order('fetched_at', { ascending: false })
       .limit(1)
-      .single();
+      .maybeSingle();
 
     if (error) {
-      // Если записи нет, это не ошибка
-      if (error.code === 'PGRST116') {
-        return null;
-      }
-      console.error('Error fetching tide data from DB:', error);
-      throw error;
-    }
-
-    if (!data || !data.raw_data) {
+      console.error('[Tide DB] Error fetching tide data from DB:', {
+        code: error.code,
+        message: error.message,
+        details: error.details,
+        hint: error.hint,
+      });
+      // Не выбрасываем ошибку, а возвращаем null для graceful degradation
       return null;
     }
 
+    if (!data || !data.raw_data) {
+      console.log('[Tide DB] No data found in database or raw_data is missing');
+      return null;
+    }
+
+    console.log('[Tide DB] Successfully fetched tide data from database, fetched_at:', data.fetched_at);
     return data.raw_data as StormglassResponse;
   } catch (error) {
-    console.error('Error in getLatestTideDataFromDB:', error);
+    console.error('[Tide DB] Error in getLatestTideDataFromDB:', error);
     return null;
   }
 }
@@ -81,7 +88,7 @@ export async function getLatestTideDataFromDB(): Promise<StormglassResponse | nu
 export async function getLastFetchTime(): Promise<Date | null> {
   try {
     if (!supabaseAdmin) {
-      console.warn('Supabase client is not initialized. Returning null.');
+      console.warn('[Tide DB] Supabase client is not initialized. Returning null.');
       return null;
     }
 
@@ -90,13 +97,10 @@ export async function getLastFetchTime(): Promise<Date | null> {
       .select('fetched_at')
       .order('fetched_at', { ascending: false })
       .limit(1)
-      .single();
+      .maybeSingle();
 
     if (error) {
-      if (error.code === 'PGRST116') {
-        return null;
-      }
-      console.error('Error fetching last fetch time:', error);
+      console.error('[Tide DB] Error fetching last fetch time:', error);
       return null;
     }
 
@@ -106,7 +110,7 @@ export async function getLastFetchTime(): Promise<Date | null> {
 
     return new Date(data.fetched_at);
   } catch (error) {
-    console.error('Error in getLastFetchTime:', error);
+    console.error('[Tide DB] Error in getLastFetchTime:', error);
     return null;
   }
 }
