@@ -8,9 +8,12 @@ const TIMEZONE = 'Europe/Lisbon';
 /**
  * Определяет текущее состояние прилива на основе данных Stormglass
  * 
- * Логика: если последний экстремум был "high" (пик прилива), 
- * то сейчас вода идет вниз (отлив). Если последний экстремум был "low" (пик отлива),
- * то сейчас вода идет вверх (прилив).
+ * Логика: 
+ * - Если последний экстремум был "high" (пик прилива), то после него сразу начинается отлив
+ * - Если последний экстремум был "low" (пик отлива), то после него сразу начинается прилив
+ * 
+ * ВАЖНО: После пика прилива сразу начинается отлив (без переходного периода).
+ * Если пик прилива был в 11:59, то в 12:00 уже будет отлив.
  */
 export function getCurrentTideState(
   extremes: StormglassResponse['data'],
@@ -18,13 +21,13 @@ export function getCurrentTideState(
 ): TideState {
   if (extremes.length === 0) return 'high';
 
-  // Находим последнее экстремальное значение до текущего времени
+  // Находим последнее экстремальное значение до текущего времени (включая текущий момент)
   const pastExtremes = extremes.filter((extreme) => {
     if (!extreme.time) return false;
     try {
       const extremeTime = parseISO(extreme.time);
       if (isNaN(extremeTime.getTime())) return false;
-      return extremeTime < currentTime;
+      return extremeTime <= currentTime;
     } catch {
       return false;
     }
@@ -47,7 +50,8 @@ export function getCurrentTideState(
   }
 
   const lastExtreme = pastExtremes[pastExtremes.length - 1];
-  // Если последний экстремум был high (пик прилива), сейчас отлив (вода идет вниз)
+  
+  // Стандартная логика: если последний экстремум был high (пик прилива), сейчас отлив (вода идет вниз)
   // Если последний экстремум был low (пик отлива), сейчас прилив (вода идет вверх)
   return lastExtreme.type === 'high' ? 'low' : 'high';
 }
@@ -64,13 +68,13 @@ export function getCurrentStateStart(
 ): TideExtreme | null {
   if (extremes.length === 0) return null;
 
-  // Находим последнее экстремальное значение до текущего времени
+  // Находим последнее экстремальное значение до текущего времени (включая текущий момент)
   const pastExtremes = extremes.filter((extreme) => {
     if (!extreme.time) return false;
     try {
       const extremeTime = parseISO(extreme.time);
       if (isNaN(extremeTime.getTime())) return false;
-      return extremeTime < currentTime;
+      return extremeTime <= currentTime; // Изменено: <= вместо <
     } catch {
       return false;
     }
