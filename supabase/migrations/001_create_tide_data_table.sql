@@ -15,3 +15,4 @@ COMMENT ON COLUMN tide_data.fetched_at IS 'Время получения дан�
 COMMENT ON COLUMN tide_data.raw_data IS 'Полные данные от Stormglass API в формате JSON';
 COMMENT ON COLUMN tide_data.created_at IS 'Время создания записи в базе данных';
 
+
