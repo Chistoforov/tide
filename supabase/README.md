@@ -28,3 +28,5 @@ supabase db push
 Для серверных операций через service role key RLS обычно не применяется.
 
 
+
+

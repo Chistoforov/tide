@@ -155,3 +155,5 @@ npm run test-update https://ваш-домен.vercel.app
 cat .env.local | grep -E "(SUPABASE|STORMGLASS|CRON)"
 ```
 
+
+

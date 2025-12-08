@@ -1,4 +1,4 @@
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
 import './globals.css';
 import { ServiceWorkerRegistration } from '@/components/ServiceWorkerRegistration';
 
@@ -6,12 +6,6 @@ export const metadata: Metadata = {
   title: 'Tide Tracker - Приливы и отливы',
   description: 'Отслеживание приливов и отливов на пляже Carcavelos, Portugal',
   manifest: '/manifest.json',
-  themeColor: '#3b82f6',
-  viewport: {
-    width: 'device-width',
-    initialScale: 1,
-    maximumScale: 1,
-  },
   appleWebApp: {
     capable: true,
     statusBarStyle: 'default',
@@ -21,6 +15,13 @@ export const metadata: Metadata = {
     icon: '/icon-192.png',
     apple: '/icon-192.png',
   },
+};
+
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 1,
+  themeColor: '#3b82f6',
 };
 
 export default function RootLayout({

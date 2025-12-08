@@ -13,3 +13,5 @@ WHERE schemaname = 'public' AND tablename = 'tide_data';
 -- Если нужно включить RLS обратно (не рекомендуется для этой таблицы):
 -- ALTER TABLE tide_data ENABLE ROW LEVEL SECURITY;
 
+
+
