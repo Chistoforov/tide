@@ -1,10 +1,18 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import { Header } from './components/Header';
 import { Footer } from './components/Footer';
 
 export default function BillingPage() {
+  const [fileName, setFileName] = useState<string | null>(null);
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files.length > 0) {
+      setFileName(e.target.files[0].name);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-white font-sans text-gray-900">
       <Header />
@@ -24,13 +32,21 @@ export default function BillingPage() {
               <p className="text-xl md:text-2xl text-gray-600 mb-10 max-w-3xl leading-relaxed">
                 Aidbox Billing gives health IT teams a production-ready FHIR core to build scalable, compliant billing systems 10x faster. Configure workflow for production claims processing in 3 weeks instead of 6-12 months.
               </p>
-              <div className="flex flex-col sm:flex-row gap-4">
+              <div className="flex flex-col sm:flex-row gap-4 mb-12">
                 <button className="bg-red-600 text-white px-8 py-4 rounded-md text-lg font-bold hover:bg-red-700 transition-colors shadow-lg shadow-red-200">
                   Book a Demo
                 </button>
                 <button className="bg-white text-gray-900 border border-gray-300 px-8 py-4 rounded-md text-lg font-medium hover:bg-gray-50 transition-colors">
                   Request POC (30 Days Free)
                 </button>
+              </div>
+
+              {/* Testimonial */}
+              <div className="border-l-4 border-red-500 pl-6 py-2 bg-gray-50 rounded-r-lg">
+                <p className="text-lg text-gray-700 italic mb-3">
+                  "We were building a billing backend to bundle with our SaaS EHR—knew FHIR but had zero EDI/X12 experience. Aidbox team mapped our payer rules, built the 837/835 bridge, and handled compliance logging we hadn't considered. Launched production claims in 4 months with their support filling our gaps."
+                </p>
+                <div className="font-bold text-gray-900">— EHR Platform CTO</div>
               </div>
             </div>
           </div>
@@ -93,90 +109,131 @@ export default function BillingPage() {
           </div>
         </section>
 
-        {/* Comparison Section */}
-        <section className="py-24 bg-white">
+        {/* Implementation Journey Section */}
+        <section className="py-24 bg-white border-b border-gray-100">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="grid md:grid-cols-2 gap-16 items-center">
               <div>
-                <h2 className="text-4xl font-bold text-gray-900 mb-6">Why Aidbox Billing?</h2>
+                <h2 className="text-4xl font-bold text-gray-900 mb-6">3-Week Implementation Journey</h2>
                 <p className="text-xl text-gray-600 mb-8">
-                  We solve the complexity of FHIR & X12 so you can focus on your product.
+                  From deployment to production claims in weeks, not months.
                 </p>
                 
-                <div className="space-y-8">
-                  <div className="flex">
-                    <div className="flex-shrink-0">
-                      <div className="flex items-center justify-center h-8 w-8 rounded-full bg-green-100 text-green-600">
-                        <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
-                        </svg>
+                <div className="space-y-6">
+                   <div className="flex">
+                      <div className="flex-shrink-0">
+                        <div className="flex items-center justify-center h-10 w-10 rounded-full bg-purple-100 text-purple-600 font-bold">1</div>
                       </div>
-                    </div>
-                    <div className="ml-4">
-                      <h4 className="text-lg font-bold text-gray-900">3-Week Go-Live vs 6-12 Months</h4>
-                      <p className="mt-1 text-gray-600">Deploy → configure → production claims. 20x faster, 90% less dev time compared to custom builds.</p>
-                    </div>
-                  </div>
+                      <div className="ml-4">
+                        <h4 className="text-lg font-bold text-gray-900">Deploy + Test Payers Live</h4>
+                        <p className="mt-1 text-gray-600">Deploy Kubernetes/Aidbox Cloud. Connect test payers (Availity sandbox). Verify 837P submission endpoint.</p>
+                      </div>
+                   </div>
 
-                  <div className="flex">
-                    <div className="flex-shrink-0">
-                      <div className="flex items-center justify-center h-8 w-8 rounded-full bg-green-100 text-green-600">
-                        <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
-                        </svg>
+                   <div className="flex">
+                      <div className="flex-shrink-0">
+                        <div className="flex items-center justify-center h-10 w-10 rounded-full bg-blue-100 text-blue-600 font-bold">2</div>
                       </div>
-                    </div>
-                    <div className="ml-4">
-                      <h4 className="text-lg font-bold text-gray-900">Own Your IP vs Vendor Lock-in</h4>
-                      <p className="mt-1 text-gray-600">$60k infra + your billing module = yours forever. Avoid $500k/year fees and rigid module constraints.</p>
-                    </div>
-                  </div>
+                      <div className="ml-4">
+                        <h4 className="text-lg font-bold text-gray-900">Configure Core Rules</h4>
+                        <p className="mt-1 text-gray-600">Map eligibility/pricing rules (FHIRPath). Set up validation. Configure 835 payment posting.</p>
+                      </div>
+                   </div>
 
-                  <div className="flex">
-                    <div className="flex-shrink-0">
-                      <div className="flex items-center justify-center h-8 w-8 rounded-full bg-green-100 text-green-600">
-                        <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
-                        </svg>
+                   <div className="flex">
+                      <div className="flex-shrink-0">
+                        <div className="flex items-center justify-center h-10 w-10 rounded-full bg-green-100 text-green-600 font-bold">3</div>
                       </div>
-                    </div>
-                    <div className="ml-4">
-                      <h4 className="text-lg font-bold text-gray-900">Multi-Tenant Scale</h4>
-                      <p className="mt-1 text-gray-600">One billing backend serves 1000s of providers from Day 1. Don\'t get stuck with per-customer deployments.</p>
-                    </div>
-                  </div>
+                      <div className="ml-4">
+                        <h4 className="text-lg font-bold text-gray-900">Production Switch</h4>
+                        <p className="mt-1 text-gray-600">Parallel run. Load test (10k claims/day). Compliance audit verified. Cutover to live payers.</p>
+                      </div>
+                   </div>
                 </div>
               </div>
               
               <div className="bg-gray-50 rounded-2xl p-8 border border-gray-100 shadow-lg">
-                 <h3 className="text-lg font-semibold text-gray-900 mb-6">Implementation Journey</h3>
-                 
-                 <div className="space-y-4">
-                    <div className="bg-white p-4 rounded border border-gray-200 shadow-sm flex items-center justify-between">
-                       <div>
-                          <div className="text-xs font-bold text-purple-600 uppercase tracking-wide mb-1">Week 1</div>
-                          <div className="font-medium text-gray-900">Deploy + Test Payers Live</div>
-                       </div>
-                       <span className="text-gray-400">→</span>
+                 <h3 className="text-lg font-semibold text-gray-900 mb-6">Timeline Comparison</h3>
+                 <div className="space-y-6">
+                    <div>
+                      <div className="flex justify-between mb-2">
+                        <span className="font-medium text-gray-900">Custom Billing Build</span>
+                        <span className="text-red-600 font-medium">6-12 months</span>
+                      </div>
+                      <div className="w-full bg-gray-200 rounded-full h-2.5">
+                        <div className="bg-red-500 h-2.5 rounded-full" style={{ width: '100%' }}></div>
+                      </div>
+                      <p className="text-xs text-gray-500 mt-1">Code → Test → Compliance → Live</p>
                     </div>
 
-                    <div className="bg-white p-4 rounded border border-gray-200 shadow-sm flex items-center justify-between">
-                       <div>
-                          <div className="text-xs font-bold text-blue-600 uppercase tracking-wide mb-1">Week 2</div>
-                          <div className="font-medium text-gray-900">Configure Core Rules</div>
-                       </div>
-                       <span className="text-gray-400">→</span>
-                    </div>
-
-                    <div className="bg-white p-4 rounded border border-gray-200 shadow-sm flex items-center justify-between">
-                       <div>
-                          <div className="text-xs font-bold text-green-600 uppercase tracking-wide mb-1">Week 3</div>
-                          <div className="font-medium text-gray-900">Production Switch</div>
-                       </div>
-                       <span className="text-gray-400">✓</span>
+                    <div>
+                      <div className="flex justify-between mb-2">
+                        <span className="font-medium text-gray-900">Aidbox Billing</span>
+                        <span className="text-green-600 font-bold">3 weeks</span>
+                      </div>
+                      <div className="w-full bg-gray-200 rounded-full h-2.5">
+                        <div className="bg-green-500 h-2.5 rounded-full" style={{ width: '15%' }}></div>
+                      </div>
+                      <p className="text-xs text-gray-500 mt-1">Deploy → Configure → Production</p>
                     </div>
                  </div>
+                 
+                 <div className="mt-8 pt-6 border-t border-gray-200">
+                    <p className="text-center font-medium text-gray-900">
+                      20x faster, 90% less dev time
+                    </p>
+                 </div>
               </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Why Aidbox Billing? (Comparison) Section */}
+        <section className="py-24 bg-white">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="text-center mb-16">
+              <h2 className="text-3xl font-bold text-gray-900 mb-4">Why Aidbox Billing?</h2>
+              <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+                We solve the complexity of FHIR & X12 so you can focus on your product.
+              </p>
+            </div>
+
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+               <div className="bg-gray-50 p-6 rounded-lg border border-gray-100">
+                  <h4 className="text-lg font-bold text-gray-900 mb-2">Production-Ready vs Experimental</h4>
+                  <p className="text-sm text-gray-600 mb-4">Others: "FHIR works in sandbox" → 12 months to production.</p>
+                  <p className="text-sm font-semibold text-green-600">Aidbox: FHIR ClaimBundle + X12 live in 3 weeks.</p>
+               </div>
+
+               <div className="bg-gray-50 p-6 rounded-lg border border-gray-100">
+                  <h4 className="text-lg font-bold text-gray-900 mb-2">Dev-to-Dev Focus</h4>
+                  <p className="text-sm text-gray-600 mb-4">Others: Sell to billers (slow sales cycles).</p>
+                  <p className="text-sm font-semibold text-green-600">Aidbox: Sell to CTOs building modules (technical decisions).</p>
+               </div>
+
+               <div className="bg-gray-50 p-6 rounded-lg border border-gray-100">
+                  <h4 className="text-lg font-bold text-gray-900 mb-2">Extensible Backbone</h4>
+                  <p className="text-sm text-gray-600 mb-4">Others: Locked into their payer rules/UI.</p>
+                  <p className="text-sm font-semibold text-green-600">Aidbox: Your rules + your UI on our FHIR rails.</p>
+               </div>
+
+               <div className="bg-gray-50 p-6 rounded-lg border border-gray-100">
+                  <h4 className="text-lg font-bold text-gray-900 mb-2">Own Your IP</h4>
+                  <p className="text-sm text-gray-600 mb-4">Others: $500k/year + price hikes.</p>
+                  <p className="text-sm font-semibold text-green-600">Aidbox: $60k infra + your billing module = yours forever.</p>
+               </div>
+
+               <div className="bg-gray-50 p-6 rounded-lg border border-gray-100">
+                  <h4 className="text-lg font-bold text-gray-900 mb-2">Multi-Tenant Scale</h4>
+                  <p className="text-sm text-gray-600 mb-4">Others: Per-customer deployments don't scale.</p>
+                  <p className="text-sm font-semibold text-green-600">Aidbox: One backend serves 1000s providers Day 1.</p>
+               </div>
+
+               <div className="bg-gray-50 p-6 rounded-lg border border-gray-100">
+                  <h4 className="text-lg font-bold text-gray-900 mb-2">Complete Stack</h4>
+                  <p className="text-sm text-gray-600 mb-4">Others: EDI only → still need to build rules/workflow.</p>
+                  <p className="text-sm font-semibold text-green-600">Aidbox: FHIR rules + X12 + workflow + compliance.</p>
+               </div>
             </div>
           </div>
         </section>
@@ -195,12 +252,49 @@ export default function BillingPage() {
           </div>
         </section>
 
+        {/* FAQ / Objections Section */}
+        <section className="py-24 bg-gray-50">
+          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="text-center mb-16">
+              <h2 className="text-3xl font-bold text-gray-900 mb-4">Frequently Asked Questions</h2>
+            </div>
+
+            <div className="space-y-6">
+              <div className="bg-white p-6 rounded-lg shadow-sm">
+                 <h4 className="text-lg font-bold text-gray-900 mb-2">Too complex to migrate?</h4>
+                 <p className="text-gray-600">We offer a Free migration assessment + 30-day POC to prove it works before you commit.</p>
+              </div>
+              <div className="bg-white p-6 rounded-lg shadow-sm">
+                 <h4 className="text-lg font-bold text-gray-900 mb-2">Will it scale?</h4>
+                 <p className="text-gray-600">We can show you a live demo with 10k claims/sec + customer case studies handling enterprise volumes.</p>
+              </div>
+              <div className="bg-white p-6 rounded-lg shadow-sm">
+                 <h4 className="text-lg font-bold text-gray-900 mb-2">Lock-in risk?</h4>
+                 <p className="text-gray-600">Aidbox is built on standard FHIR APIs. You can bring your own infra. You own your IP.</p>
+              </div>
+              <div className="bg-white p-6 rounded-lg shadow-sm">
+                 <h4 className="text-lg font-bold text-gray-900 mb-2">What if we need custom payer rules?</h4>
+                 <p className="text-gray-600">Use our FHIRPath rules engine + no-code config UI to handle any payer-specific requirements.</p>
+              </div>
+              <div className="bg-white p-6 rounded-lg shadow-sm">
+                 <h4 className="text-lg font-bold text-gray-900 mb-2">Integration with our EHR?</h4>
+                 <p className="text-gray-600">Open FHIR REST APIs + Epic/Cerner tested connectors make integration straightforward.</p>
+              </div>
+              <div className="bg-white p-6 rounded-lg shadow-sm">
+                 <h4 className="text-lg font-bold text-gray-900 mb-2">$2.5k/mo too expensive?</h4>
+                 <p className="text-gray-600">Our ROI calculator shows payback in less than 1 month vs in-house dev costs.</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
         {/* Contact Form Section */}
         <section className="py-24 bg-white">
           <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-12">
                <h2 className="text-3xl font-bold text-gray-900 mb-4">Start your billing project</h2>
                <p className="text-lg text-gray-600">Tell us about your needs and we’ll help you launch fast</p>
+               <p className="text-sm text-green-600 font-bold mt-2">Plans start at $2.5k/mo</p>
             </div>
             
             <form className="space-y-6 bg-gray-50 p-8 rounded-xl border border-gray-200 shadow-sm">
@@ -218,6 +312,28 @@ export default function BillingPage() {
                   <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-1">Message</label>
                   <textarea id="message" rows={4} className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-red-500 focus:border-red-500" placeholder="Tell us about your billing requirements..."></textarea>
                </div>
+               
+               <div>
+                  <label htmlFor="document" className="block text-sm font-medium text-gray-700 mb-1">Attach Document (Optional)</label>
+                  <div className="mt-1 flex items-center">
+                    <label htmlFor="document" className="cursor-pointer bg-white py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
+                      Choose File
+                    </label>
+                    <input 
+                      type="file" 
+                      id="document" 
+                      name="document" 
+                      className="sr-only" 
+                      accept=".doc,.docx,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+                      onChange={handleFileChange}
+                    />
+                    <span className="ml-3 text-sm text-gray-500">
+                      {fileName ? fileName : 'No file chosen'}
+                    </span>
+                  </div>
+                  <p className="mt-1 text-xs text-gray-500">Accepted formats: .doc, .docx (Microsoft Word)</p>
+               </div>
+
                <button type="submit" className="w-full bg-black text-white px-6 py-3 rounded-md font-bold hover:bg-gray-800 transition-colors">
                   Send Message
                </button>
