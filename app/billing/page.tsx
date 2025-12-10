@@ -16,20 +16,20 @@ export default function BillingPage() {
             <div className="max-w-4xl">
                <div className="inline-flex items-center space-x-2 bg-gray-100 rounded-full px-3 py-1 text-sm font-medium text-gray-800 mb-6">
                  <span className="flex h-2 w-2 rounded-full bg-green-500"></span>
-                 <span>Built on FHIR & Surescripts-ready</span>
+                 <span>Production-ready medical billing backend</span>
                </div>
               <h1 className="text-5xl md:text-6xl font-bold tracking-tight text-gray-900 mb-6 leading-tight">
-                Launch your e-prescription module fast
+                Ship compliant billing modules in weeks, not years
               </h1>
-              <p className="text-xl md:text-2xl text-gray-600 mb-10 max-w-2xl leading-relaxed">
-                Build a compliant, scalable eRx solution in days with Aidbox. FHIR-native, certification-ready, and built for seamless Surescripts integration.
+              <p className="text-xl md:text-2xl text-gray-600 mb-10 max-w-3xl leading-relaxed">
+                Aidbox Billing gives health IT teams a production-ready FHIR core to build scalable, compliant billing systems 10x faster. Configure workflow for production claims processing in 3 weeks instead of 6-12 months.
               </p>
               <div className="flex flex-col sm:flex-row gap-4">
                 <button className="bg-red-600 text-white px-8 py-4 rounded-md text-lg font-bold hover:bg-red-700 transition-colors shadow-lg shadow-red-200">
-                  Book a Call
+                  Book a Demo
                 </button>
                 <button className="bg-white text-gray-900 border border-gray-300 px-8 py-4 rounded-md text-lg font-medium hover:bg-gray-50 transition-colors">
-                  Documentation
+                  Request POC (30 Days Free)
                 </button>
               </div>
             </div>
@@ -46,10 +46,10 @@ export default function BillingPage() {
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="mb-16">
               <h2 className="text-3xl font-bold text-gray-900 mb-4">
-                Aidbox E-Prescription — a module for managing electronic prescriptions
+                Aidbox Billing — production-ready backend platform
               </h2>
               <p className="text-xl text-gray-600 max-w-3xl">
-                Modern solution for healthcare organizations compliant with strict industry standards
+                Native FHIR + X12 rules engine for teams rewriting or building custom healthcare billing systems
               </p>
             </div>
 
@@ -57,37 +57,37 @@ export default function BillingPage() {
               {/* Feature 1 */}
               <div className="bg-white p-8 rounded-xl shadow-sm hover:shadow-md transition-shadow border border-gray-100">
                 <div className="w-12 h-12 bg-red-100 rounded-lg flex items-center justify-center mb-6 text-red-600">
-                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
+                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" /></svg>
                 </div>
-                <h3 className="text-lg font-bold text-gray-900 mb-2">FHIR-native</h3>
-                <p className="text-gray-600">Direct mappings to FHIR — no manual configuration needed</p>
+                <h3 className="text-lg font-bold text-gray-900 mb-2">FHIR Rules Engine</h3>
+                <p className="text-gray-600">Configurable FHIRPath rules for claims validation, pricing, eligibility decisions. Deploy new rules in hours.</p>
               </div>
 
               {/* Feature 2 */}
               <div className="bg-white p-8 rounded-xl shadow-sm hover:shadow-md transition-shadow border border-gray-100">
                 <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mb-6 text-blue-600">
-                   <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                   <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" /></svg>
                 </div>
-                <h3 className="text-lg font-bold text-gray-900 mb-2">NCPDP-compliant</h3>
-                <p className="text-gray-600">Fully compliant with NCPDP standard for e-prescriptions</p>
+                <h3 className="text-lg font-bold text-gray-900 mb-2">X12/FHIR Bridge</h3>
+                <p className="text-gray-600">Native bidirectional ClaimBundle EDI conversion (837/835 ↔ FHIR). Zero format-based rejections.</p>
               </div>
 
               {/* Feature 3 */}
               <div className="bg-white p-8 rounded-xl shadow-sm hover:shadow-md transition-shadow border border-gray-100">
                  <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mb-6 text-green-600">
-                   <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" /></svg>
+                   <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" /></svg>
                  </div>
-                <h3 className="text-lg font-bold text-gray-900 mb-2">Quick Integration</h3>
-                <p className="text-gray-600">Seamless integration with Aidbox platform and modules</p>
+                <h3 className="text-lg font-bold text-gray-900 mb-2">Multi-tenant Workflows</h3>
+                <p className="text-gray-600">Kubernetes-native shared billing core with org isolation. Single deployment serves 1000s of providers.</p>
               </div>
 
               {/* Feature 4 */}
               <div className="bg-white p-8 rounded-xl shadow-sm hover:shadow-md transition-shadow border border-gray-100">
                  <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center mb-6 text-purple-600">
-                   <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
+                   <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" /></svg>
                  </div>
-                <h3 className="text-lg font-bold text-gray-900 mb-2">Certification ready</h3>
-                <p className="text-gray-600">We help you through the certification process step by step</p>
+                <h3 className="text-lg font-bold text-gray-900 mb-2">Audit & Compliance</h3>
+                <p className="text-gray-600">Built-in HIPAA BAA + SOC2 Type II controls. Production-ready for enterprise compliance reviews.</p>
               </div>
             </div>
           </div>
@@ -98,9 +98,9 @@ export default function BillingPage() {
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="grid md:grid-cols-2 gap-16 items-center">
               <div>
-                <h2 className="text-4xl font-bold text-gray-900 mb-6">Why is it easier with us?</h2>
+                <h2 className="text-4xl font-bold text-gray-900 mb-6">Why Aidbox Billing?</h2>
                 <p className="text-xl text-gray-600 mb-8">
-                  Doing it yourself is time-consuming and expensive. With us, it’s fast and certified.
+                  We solve the complexity of FHIR & X12 so you can focus on your product.
                 </p>
                 
                 <div className="space-y-8">
@@ -113,8 +113,8 @@ export default function BillingPage() {
                       </div>
                     </div>
                     <div className="ml-4">
-                      <h4 className="text-lg font-bold text-gray-900">We’ve already passed certification</h4>
-                      <p className="mt-1 text-gray-600">We’ve helped clients complete all necessary checks and certifications — we know the processes</p>
+                      <h4 className="text-lg font-bold text-gray-900">3-Week Go-Live vs 6-12 Months</h4>
+                      <p className="mt-1 text-gray-600">Deploy → configure → production claims. 20x faster, 90% less dev time compared to custom builds.</p>
                     </div>
                   </div>
 
@@ -127,8 +127,8 @@ export default function BillingPage() {
                       </div>
                     </div>
                     <div className="ml-4">
-                      <h4 className="text-lg font-bold text-gray-900">All mappings and data structures are ready</h4>
-                      <p className="mt-1 text-gray-600">No need to dive into data format details — we’ve already prepared and validated everything</p>
+                      <h4 className="text-lg font-bold text-gray-900">Own Your IP vs Vendor Lock-in</h4>
+                      <p className="mt-1 text-gray-600">$60k infra + your billing module = yours forever. Avoid $500k/year fees and rigid module constraints.</p>
                     </div>
                   </div>
 
@@ -141,37 +141,37 @@ export default function BillingPage() {
                       </div>
                     </div>
                     <div className="ml-4">
-                      <h4 className="text-lg font-bold text-gray-900">Your team can start as early as tomorrow</h4>
-                      <p className="mt-1 text-gray-600">Simple integration and detailed documentation make it easy to get started quickly</p>
+                      <h4 className="text-lg font-bold text-gray-900">Multi-Tenant Scale</h4>
+                      <p className="mt-1 text-gray-600">One billing backend serves 1000s of providers from Day 1. Don\'t get stuck with per-customer deployments.</p>
                     </div>
                   </div>
                 </div>
               </div>
               
               <div className="bg-gray-50 rounded-2xl p-8 border border-gray-100 shadow-lg">
-                 <h3 className="text-lg font-semibold text-gray-900 mb-6">Growing together with our clients</h3>
+                 <h3 className="text-lg font-semibold text-gray-900 mb-6">Implementation Journey</h3>
                  
                  <div className="space-y-4">
                     <div className="bg-white p-4 rounded border border-gray-200 shadow-sm flex items-center justify-between">
                        <div>
-                          <div className="text-xs font-bold text-purple-600 uppercase tracking-wide mb-1">Backlog</div>
-                          <div className="font-medium text-gray-900">SholtzDB Integration</div>
+                          <div className="text-xs font-bold text-purple-600 uppercase tracking-wide mb-1">Week 1</div>
+                          <div className="font-medium text-gray-900">Deploy + Test Payers Live</div>
                        </div>
                        <span className="text-gray-400">→</span>
                     </div>
 
                     <div className="bg-white p-4 rounded border border-gray-200 shadow-sm flex items-center justify-between">
                        <div>
-                          <div className="text-xs font-bold text-blue-600 uppercase tracking-wide mb-1">In Progress</div>
-                          <div className="font-medium text-gray-900">Renew prescription</div>
+                          <div className="text-xs font-bold text-blue-600 uppercase tracking-wide mb-1">Week 2</div>
+                          <div className="font-medium text-gray-900">Configure Core Rules</div>
                        </div>
                        <span className="text-gray-400">→</span>
                     </div>
 
                     <div className="bg-white p-4 rounded border border-gray-200 shadow-sm flex items-center justify-between">
                        <div>
-                          <div className="text-xs font-bold text-green-600 uppercase tracking-wide mb-1">Released</div>
-                          <div className="font-medium text-gray-900">FirstDatabank Integration</div>
+                          <div className="text-xs font-bold text-green-600 uppercase tracking-wide mb-1">Week 3</div>
+                          <div className="font-medium text-gray-900">Production Switch</div>
                        </div>
                        <span className="text-gray-400">✓</span>
                     </div>
@@ -188,8 +188,9 @@ export default function BillingPage() {
             <div className="flex flex-wrap justify-center gap-8 md:gap-16 items-center opacity-80">
               <span className="text-2xl font-bold">Aidbox</span>
               <span className="text-2xl font-bold">FHIR</span>
-              <span className="text-2xl font-bold">NCPDP</span>
-              <span className="text-2xl font-bold">REST API</span>
+              <span className="text-2xl font-bold">X12</span>
+              <span className="text-2xl font-bold">Kubernetes</span>
+              <span className="text-2xl font-bold">Kafka</span>
             </div>
           </div>
         </section>
@@ -198,8 +199,8 @@ export default function BillingPage() {
         <section className="py-24 bg-white">
           <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-12">
-               <h2 className="text-3xl font-bold text-gray-900 mb-4">Tell us what you’re missing</h2>
-               <p className="text-lg text-gray-600">and we’ll figure out how to build that feature together</p>
+               <h2 className="text-3xl font-bold text-gray-900 mb-4">Start your billing project</h2>
+               <p className="text-lg text-gray-600">Tell us about your needs and we’ll help you launch fast</p>
             </div>
             
             <form className="space-y-6 bg-gray-50 p-8 rounded-xl border border-gray-200 shadow-sm">
@@ -215,7 +216,7 @@ export default function BillingPage() {
                </div>
                <div>
                   <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-1">Message</label>
-                  <textarea id="message" rows={4} className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-red-500 focus:border-red-500" placeholder="Tell us about your needs..."></textarea>
+                  <textarea id="message" rows={4} className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-red-500 focus:border-red-500" placeholder="Tell us about your billing requirements..."></textarea>
                </div>
                <button type="submit" className="w-full bg-black text-white px-6 py-3 rounded-md font-bold hover:bg-gray-800 transition-colors">
                   Send Message
@@ -227,10 +228,10 @@ export default function BillingPage() {
         {/* CTA Section */}
         <section className="py-20 bg-red-600 text-white text-center">
            <div className="max-w-4xl mx-auto px-4">
-              <h2 className="text-4xl font-bold mb-6">Ready to get started?</h2>
-              <p className="text-xl mb-10 opacity-90">Join the thousands of developers building the future of healthcare with Aidbox.</p>
+              <h2 className="text-4xl font-bold mb-6">Ready to launch your billing module?</h2>
+              <p className="text-xl mb-10 opacity-90">Join the health IT teams building scalable, compliant billing systems with Aidbox.</p>
               <button className="bg-white text-red-600 px-10 py-4 rounded-md text-xl font-bold hover:bg-gray-100 transition-colors shadow-xl">
-                 Get Started Now
+                 Book a Demo
               </button>
            </div>
         </section>
